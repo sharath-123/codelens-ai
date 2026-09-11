@@ -19,7 +19,7 @@ public class Review {
     private String sourceCode;
     private ReviewStatus status;
     private Double qualityScore;
-    private String Summary;
+    private String summary;
     private Instant createdAt;
     private Instant completedAt;
 
