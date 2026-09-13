@@ -1,0 +1,11 @@
+id,type,description
+R001,SECURITY,SQL queries should use parameterized queries instead of string concatenation to prevent SQL injection.
+R002,SECURITY,User input should be validated and sanitized before being used in application logic.
+R003,PERFORMANCE,Avoid database calls inside loops because they can create unnecessary repeated queries.
+R004,PERFORMANCE,Prefer batching or bulk database operations when processing multiple records.
+R005,MAINTAINABILITY,Avoid System.out.println in application code and use a structured logging framework such as SLF4J.
+R006,MAINTAINABILITY,Use descriptive variable and method names that clearly communicate intent.
+R007,ARCHITECTURE,Keep business logic inside service classes instead of placing complex logic directly in controllers.
+R008,ARCHITECTURE,Use DTOs at API boundaries instead of exposing persistence entities directly.
+R009,SECURITY,Never hardcode passwords API keys tokens or other secrets in source code.
+R010,PERFORMANCE,Avoid unnecessary object creation and repeated computation inside frequently executed code.

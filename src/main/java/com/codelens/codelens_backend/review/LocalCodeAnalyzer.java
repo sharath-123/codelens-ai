@@ -2,6 +2,7 @@ package com.codelens.codelens_backend.review;
 
 import com.codelens.codelens_backend.model.FindingSeverity;
 import com.codelens.codelens_backend.model.FindingType;
+import com.codelens.codelens_backend.model.HistoricalRule;
 import com.codelens.codelens_backend.model.Review;
 import com.codelens.codelens_backend.model.ReviewFinding;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,12 @@ import java.util.regex.Pattern;
 
 @Component
 public class LocalCodeAnalyzer {
+
+    private final HistoricalRuleService historicalRuleService;
+
+    public LocalCodeAnalyzer(HistoricalRuleService historicalRuleService) {
+        this.historicalRuleService = historicalRuleService;
+    }
 
     public List<ReviewFinding> analyze(Review review) {
 
@@ -54,7 +61,10 @@ public class LocalCodeAnalyzer {
                                 FindingType.SECURITY,
                                 FindingSeverity.HIGH,
                                 "SQL Injection Risk",
-                                "SQL query appears to be constructed using string concatenation.",
+                                enrichDescription(
+                                        "SQL query appears to be constructed using string concatenation.",
+                                        FindingType.SECURITY
+                                ),
                                 "Use parameterized queries or prepared statements.",
                                 i + 1
                         )
@@ -174,6 +184,25 @@ public class LocalCodeAnalyzer {
                     )
             );
         }
+    }
+
+    private String enrichDescription(
+            String originalDescription,
+            FindingType type
+    ) {
+
+        List<HistoricalRule> rules =
+                historicalRuleService.findRelevantRules(type.name());
+
+        if (rules.isEmpty()) {
+            return originalDescription;
+        }
+
+        String historicalContext = rules.get(0).getDescription();
+
+        return originalDescription
+                + " Historical review guidance: "
+                + historicalContext;
     }
 
     private ReviewFinding createFinding(
