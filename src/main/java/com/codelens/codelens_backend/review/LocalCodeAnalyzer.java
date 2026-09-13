@@ -63,7 +63,8 @@ public class LocalCodeAnalyzer {
                                 "SQL Injection Risk",
                                 enrichDescription(
                                         "SQL query appears to be constructed using string concatenation.",
-                                        FindingType.SECURITY
+                                        FindingType.SECURITY,
+                                        "SQL Injection Risk"
                                 ),
                                 "Use parameterized queries or prepared statements.",
                                 i + 1
@@ -188,21 +189,28 @@ public class LocalCodeAnalyzer {
 
     private String enrichDescription(
             String originalDescription,
-            FindingType type
+            FindingType type,
+            String findingTitle
     ) {
 
         List<HistoricalRule> rules =
-                historicalRuleService.findRelevantRules(type.name());
+                historicalRuleService.findRelevantRules(
+                        type.name(),
+                        findingTitle,
+                        originalDescription
+                );
 
         if (rules.isEmpty()) {
             return originalDescription;
         }
 
-        String historicalContext = rules.get(0).getDescription();
+        HistoricalRule bestRule = rules.get(0);
 
         return originalDescription
-                + " Historical review guidance: "
-                + historicalContext;
+                + " Historical review guidance ["
+                + bestRule.getId()
+                + "]: "
+                + bestRule.getDescription();
     }
 
     private ReviewFinding createFinding(
