@@ -1,8 +1,8 @@
-\# CodeLens AI 🔍
+ CodeLens AI 🔍
 
 
 
-\## The 24/7 Intelligent Code Reviewer
+ The 24/7 Intelligent Code Reviewer
 
 
 
