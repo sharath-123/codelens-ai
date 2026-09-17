@@ -260,61 +260,50 @@ This creates a review pipeline that is both explainable and repeatable.
 
 ```text
 
-&#x20;                   ┌──────────────────────┐
+                   ┌──────────────────────┐
 
-&#x20;                   │   React + Vite UI    │
+                   │   React + Vite UI    │
 
-&#x20;                   │     TypeScript       │
+                   │     TypeScript       │
 
-&#x20;                   └──────────┬───────────┘
+                   └──────────┬───────────┘
+                              │ REST API
+                              ▼
+                   ┌──────────────────────┐
+                   │ Spring Boot Backend  │
 
-&#x20;                              │ REST API
+                   │     Cloud Run        │
 
-&#x20;                              ▼
+                   └──────────┬───────────┘
+                              │
+                ┌─────────────┼─────────────┐
 
-&#x20;                   ┌──────────────────────┐
+               │             │             │
 
-&#x20;                   │ Spring Boot Backend  │
+                ▼             ▼             ▼
 
-&#x20;                   │     Cloud Run        │
+      ┌──────────────┐ ┌────────────┐ ┌──────────────┐
 
-&#x20;                   └──────────┬───────────┘
+      │ Local Static │ │ Historical │ │    Gemini    │
+       │   Analyzer   │ │ Rule Engine│ │  Vertex AI   │
 
-&#x20;                              │
+       └──────┬───────┘ └─────┬──────┘ └──────┬───────┘
 
-&#x20;                ┌─────────────┼─────────────┐
+              │               │               │
 
-&#x20;                │             │             │
+              └───────────────┼───────────────┘
 
-&#x20;                ▼             ▼             ▼
+                              │
 
-&#x20;       ┌──────────────┐ ┌────────────┐ ┌──────────────┐
+                              ▼
 
-&#x20;       │ Local Static │ │ Historical │ │    Gemini    │
+                   ┌──────────────────────┐
 
-&#x20;       │   Analyzer   │ │ Rule Engine│ │  Vertex AI   │
+                   │ Google Firestore     │
 
-&#x20;       └──────┬───────┘ └─────┬──────┘ └──────┬───────┘
+                   │ Reviews \& Findings   │
 
-&#x20;              │               │               │
-
-&#x20;              └───────────────┼───────────────┘
-
-&#x20;                              │
-
-&#x20;                              ▼
-
-&#x20;                   ┌──────────────────────┐
-
-&#x20;                   │ Google Firestore     │
-
-&#x20;                   │ Reviews \& Findings   │
-
-&#x20;                   └──────────────────────┘
-
-```
-
-
+                   └──────────────────────┘
 
 \---
 
@@ -332,35 +321,35 @@ This creates a review pipeline that is both explainable and repeatable.
 
 1\. Developer submits code
 
-&#x20;       ↓
+       ↓
 
 2\. Spring Boot creates a review
 
-&#x20;       ↓
+       ↓
 
 3\. Local static analyzer scans the code
 
-&#x20;       ↓
+       ↓
 
 4\. Historical rules are matched
 
-&#x20;       ↓
+       ↓
 
 5\. Source + historical guidance → Gemini
 
-&#x20;       ↓
+       ↓
 
 6\. AI review is generated
 
-&#x20;       ↓
+       ↓
 
 7\. Findings + score are saved
 
-&#x20;       ↓
+       ↓
 
 8\. Firestore stores the review
 
-&#x20;       ↓
+       ↓
 
 9\. Frontend displays the completed review
 
@@ -448,23 +437,23 @@ During a review:
 
 Finding
 
-&#x20;  ↓
+  ↓
 
 Finding Type
 
-&#x20;  ↓
+  ↓
 
 Historical Rule Matching
 
-&#x20;  ↓
+  ↓
 
 Relevant Engineering Guidance
 
-&#x20;  ↓
+ ↓
 
 Gemini Context
 
-&#x20;  ↓
+ ↓
 
 Final AI Review
 
@@ -618,11 +607,11 @@ Deploy to Cloud Run.
 
 gcloud run deploy codelens-backend \\
 
-&#x20; --source . \\
+ --source . \\
 
-&#x20; --region us-central1 \\
+ --region us-central1 \\
 
-&#x20; --allow-unauthenticated
+ --allow-unauthenticated
 
 ```
 
@@ -716,9 +705,9 @@ Example request:
 
 {
 
-&#x20; "language": "Java",
+ "language": "Java",
 
-&#x20; "sourceCode": "public void test() { }"
+ "sourceCode": "public void test() { }"
 
 }
 
@@ -734,11 +723,11 @@ Example response:
 
 {
 
-&#x20; "id": "review-id",
+ "id": "review-id",
 
-&#x20; "status": "COMPLETED",
+ "status": "COMPLETED",
 
-&#x20; "qualityScore": 7.8
+ "qualityScore": 7.8
 
 }
 
@@ -824,13 +813,13 @@ public void getUser(String id) {
 
 
 
-&#x20;   String query =
+   String query =
 
-&#x20;       "SELECT \* FROM users WHERE id = '" + id + "'";
+       "SELECT \* FROM users WHERE id = '" + id + "'";
 
 
 
-&#x20;   System.out.println(query);
+   System.out.println(query);
 
 }
 
@@ -942,23 +931,23 @@ CodeLens builds a complete review pipeline.
 
 Source Code
 
-&#x20;    ↓
+    ↓
 
 Static Evidence
 
-&#x20;    ↓
+    ↓
 
 Historical Engineering Knowledge
 
-&#x20;    ↓
+   ↓
 
 Gemini Reasoning
 
-&#x20;    ↓
+    ↓
 
 Quality Score
 
-&#x20;    ↓
+    ↓
 
 Persistent Review History
 
